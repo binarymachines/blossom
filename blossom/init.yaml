@@ -1,0 +1,69 @@
+#
+# YAML config file for Blossom (connectivity to 3rd-party APIs)
+#
+# Dexter Taylor
+# binarymachineshop@gmail.com
+#
+
+
+global:        
+        handler_module_path: $BLOSSOM_MODULE_PATH
+
+
+services:
+        trello:
+                base_url:               https://api.trello.com/1
+                description:            'Trello API version 1'
+                # you can also designate a handler_module_path per-service, 
+                # which will coexist with the global value
+
+
+databases:        
+        blocpower_db:
+                type:     mysql
+                host:     $BLOCPOWER_DB_HOST
+                schema:   blocpower
+                user:     userid    
+                password: pw
+
+
+handlers:
+        board_list_handler:
+                module:         testmodule
+                function:       testHandler
+
+
+
+calls:
+        blocpower_boards:       
+                url_path:       organizations/blocpower/boards
+                parameters:
+                        - name:  key
+                          value: $TRELLO_API_KEY
+                        - name:  token
+                          value: $TRELLO_API_SECRET 
+                handler:  board_list_handler
+
+
+        boiler_type_menu:
+                url_path:       
+                parameters:
+                       - name: foo
+                         value: bar
+                handler: board_list_handler
+
+
+webhook_callbacks:
+        test_endpoint:
+                url:    http://dummy.url        
+
+webhooks:
+        test_hook:
+                token:          e4d0193f58d793e9b930bfe4cdaa0aa38e55d28e39623d336abc9471525ac313
+                description:    a test Trello webhook
+                callback:       test_endpoint
+                
+
+
+          
+   
