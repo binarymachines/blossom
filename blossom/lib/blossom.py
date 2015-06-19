@@ -101,8 +101,8 @@ class APIManager():
       handlerAlias = configSection[CALL_HANDLER_TAG]
       
       params = []
-      if configSection.get(CALL_PARAMETERS_TAG):
-         for param in configSection.get(CALL_PARAMETERS_TAG):
+      
+      for param in configSection.get(CALL_PARAMETERS_TAG, []):
             params.append(APIParameter(param.get('name'), param.get('value')))
       
       if not handlerAlias:
