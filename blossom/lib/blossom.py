@@ -72,8 +72,10 @@ class APICall():
 
 
    def __repr__(self):
-      return '%s?%s' % (self.urlPath, self.generateQueryString()) 
-
+      queryString = self.generateQueryString()
+      if len(queryString):
+            return '%s?%s' % (self.urlPath, queryString) 
+      return self.urlPath
 
 class APIManager():
    def __init__(self, yamlConfig):
