@@ -27,6 +27,10 @@ class UnregisteredServiceException(Exception):
 class UnregisteredHandlerException(Exception):
    def __init__(self, handlerID, apiCallName):
       Exception.__init__(self, 'No handler function registered under the name "%s" for API call "%s".' % (handlerID, apiCallName))
+
+class UnregisteredAPICallException(Exception):
+   def __init__(self, apiCallName):
+      Exception.__init__(self, 'No call registered under the name "%s".' % (apiCallName))
       
 
 class Service():
@@ -97,8 +101,9 @@ class APIManager():
       handlerAlias = configSection[CALL_HANDLER_TAG]
       
       params = []
-      for param in configSection.get(CALL_PARAMETERS_TAG):
-         params.append(APIParameter(param.get('name'), param.get('value')))
+      if configSection.get(CALL_PARAMETERS_TAG):
+         for param in configSection.get(CALL_PARAMETERS_TAG):
+            params.append(APIParameter(param.get('name'), param.get('value')))
       
       if not handlerAlias:
          raise Exception('Invalid API call specified in init file under "%s".' % sectionName)
